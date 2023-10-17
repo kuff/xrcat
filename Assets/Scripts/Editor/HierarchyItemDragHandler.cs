@@ -22,7 +22,8 @@ namespace Editor
             {
                 // Check if the dragged object is an AudioClip
                 if (obj is not AudioClip clip ||
-                    System.IO.Path.GetExtension(AssetDatabase.GetAssetPath(clip)) != ".wav") continue;
+                    System.IO.Path.GetExtension(AssetDatabase.GetAssetPath(clip)) != ".wav" ||
+                    System.IO.Path.GetExtension(AssetDatabase.GetAssetPath(clip)) != ".mp3") continue;
                 
                 // Get the GameObject that the audio clip was dragged onto
                 var draggedOntoObject = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
