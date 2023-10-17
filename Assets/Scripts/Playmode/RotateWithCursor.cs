@@ -5,14 +5,15 @@ namespace Playmode
     public class RotateWithCursor : MonoBehaviour
     {
         [SerializeField] private Camera mainCamera;
-        private bool _cursorIsConfined;
+
+        // Property to expose the cursor state
+        public bool CursorIsConfined { get; private set; } = false;
 
         private void Update()
         {
             HandleMouseLock();
 
-            // Only rotate the object if the cursor is confined
-            if (_cursorIsConfined)
+            if (CursorIsConfined)
             {
                 RotateTowardsCursor();
             }
@@ -20,19 +21,17 @@ namespace Playmode
 
         private void HandleMouseLock()
         {
-            // If the user presses the left mouse button, confine the cursor to the game window
-            if (Input.GetMouseButtonDown(0) && !_cursorIsConfined)
+            if (Input.GetMouseButtonDown(0) && !CursorIsConfined)
             {
                 Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = true;  // Ensure the cursor remains visible
-                _cursorIsConfined = true;
+                Cursor.visible = true;
+                CursorIsConfined = true;
             }
 
-            // If the user presses the Escape key, release the cursor
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) && CursorIsConfined)
             {
                 Cursor.lockState = CursorLockMode.None;
-                _cursorIsConfined = false;
+                CursorIsConfined = false;
             }
         }
 
@@ -45,8 +44,6 @@ namespace Playmode
 
             var hitPoint = ray.GetPoint(enter);
             var direction = hitPoint - transform.position;
-
-            // Make sure to not tilt in the X and Z axis
             direction.y = 0;
 
             var rotation = Quaternion.LookRotation(direction);
