@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using TMPro;
 
@@ -19,6 +20,7 @@ namespace Playmode
             UpdateInstructionText();
         }
 
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         private void UpdateInstructionText()
         {
             instructionText.text = _rotateWithCursorScript.CursorIsConfined 
